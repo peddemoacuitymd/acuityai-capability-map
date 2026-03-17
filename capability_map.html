@@ -408,7 +408,7 @@
 </div>
 
 <script>
-const categories = [
+const categories = /*CATEGORIES_START*/[
   {
     name: 'HCP Research & Profiling',
     today: 0.92, nearterm: 0.95, longterm: 0.97,
@@ -549,7 +549,7 @@ const categories = [
     gapDesc: 'Cannot find providers similar to a target by procedure mix, volume, specialty, or adoption profile. Known customer request.',
     gapExample: '"Find surgeons similar to Dr. Martinez — same specialty, similar volume, early adopter of new tech." — not yet supported.'
   }
-];
+]/*CATEGORIES_END*/;
 
 // Chart setup
 const ctx = document.getElementById('radarChart').getContext('2d');
