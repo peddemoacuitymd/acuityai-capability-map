@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcuityAI Capability Map</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --strong: #10B981;
+    --strong-bg: #D1FAE5;
+    --moderate: #3B82F6;
+    --moderate-bg: #DBEAFE;
+    --gap: #EF4444;
+    --gap-bg: #FEE2E2;
+    --investing: #F59E0B;
+    --investing-bg: #FEF3C7;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+    --today-color: #10B981;
+    --today-fill: rgba(16, 185, 129, 0.15);
+    --today-border: rgba(16, 185, 129, 0.8);
+    --nearterm-color: #3B82F6;
+    --nearterm-fill: rgba(59, 130, 246, 0.10);
+    --nearterm-border: rgba(59, 130, 246, 0.7);
+    --longterm-color: #8B5CF6;
+    --longterm-fill: rgba(139, 92, 246, 0.08);
+    --longterm-border: rgba(139, 92, 246, 0.6);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.5;
+  }
+
+  .page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 8px;
+  }
+
+  header p {
+    font-size: 15px;
+    color: var(--gray-500);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .summary-bar {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+
+  .summary-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .summary-pill.strong { background: var(--strong-bg); color: #065F46; }
+  .summary-pill.investing { background: var(--investing-bg); color: #92400E; }
+  .summary-pill.gap { background: var(--gap-bg); color: #991B1B; }
+
+  .summary-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .summary-pill.strong .summary-dot { background: var(--strong); }
+  .summary-pill.investing .summary-dot { background: var(--investing); }
+  .summary-pill.gap .summary-dot { background: var(--gap); }
+
+  .chart-section {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    margin-bottom: 32px;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .chart-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+
+  .view-toggles {
+    display: flex;
+    gap: 6px;
+  }
+
+  .view-toggle {
+    padding: 8px 18px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    color: var(--gray-400);
+    user-select: none;
+  }
+
+  .view-toggle:hover { border-color: var(--gray-300); }
+
+  .view-toggle.active-today {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: var(--today-color);
+    color: #065F46;
+  }
+
+  .view-toggle.active-nearterm {
+    background: rgba(59, 130, 246, 0.08);
+    border-color: var(--nearterm-color);
+    color: #1E40AF;
+  }
+
+  .view-toggle.active-longterm {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: var(--longterm-color);
+    color: #5B21B6;
+  }
+
+  .chart-wrapper {
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-600);
+    transition: opacity 0.2s;
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+  }
+
+  .legend-today .legend-swatch { background: var(--today-color); }
+  .legend-nearterm .legend-swatch { background: var(--nearterm-color); }
+  .legend-longterm .legend-swatch { background: var(--longterm-color); }
+
+  .legend-item.dimmed { opacity: 0.3; }
+
+  .details-section {
+    margin-bottom: 32px;
+  }
+
+  .details-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 16px;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 12px;
+  }
+
+  .detail-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-left: 4px solid transparent;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .detail-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .detail-card.strong-card { border-left-color: var(--strong); }
+  .detail-card.investing-card { border-left-color: var(--investing); }
+  .detail-card.gap-card { border-left-color: var(--gap); }
+
+  .detail-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .detail-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+
+  .status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .status-badge.strong { background: var(--strong-bg); color: #065F46; }
+  .status-badge.moderate { background: var(--moderate-bg); color: #1E40AF; }
+  .status-badge.gap { background: var(--gap-bg); color: #991B1B; }
+
+  .detail-row {
+    margin-bottom: 8px;
+  }
+
+  .detail-row:last-child { margin-bottom: 0; }
+
+  .detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-400);
+    margin-bottom: 2px;
+  }
+
+  .detail-text {
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  .detail-example {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gray-500);
+    background: var(--gray-50);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 20px;
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+  }
+
+  .section-divider-text {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-400);
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px 0;
+    font-size: 12px;
+    color: var(--gray-400);
+  }
+
+  @media (max-width: 768px) {
+    .page-container { padding: 24px 16px; }
+    header h1 { font-size: 22px; }
+    .details-grid { grid-template-columns: 1fr; }
+    .chart-section { padding: 20px; }
+    .chart-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page-container">
+  <header>
+    <h1>AcuityAI Capability Map</h1>
+    <p>Coverage across key sales workflows — where we're strong today, where we're investing, and where gaps remain.</p>
+  </header>
+
+  <div class="summary-bar">
+    <div class="summary-pill strong">
+      <span class="summary-dot"></span>
+      5 Strong areas
+    </div>
+    <div class="summary-pill investing">
+      <span class="summary-dot"></span>
+      5 Actively investing
+    </div>
+    <div class="summary-pill gap">
+      <span class="summary-dot"></span>
+      4 Known gaps
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div class="chart-header">
+      <div class="chart-title">Coverage by Job to Be Done</div>
+      <div class="view-toggles">
+        <button class="view-toggle active-today" data-layer="today" onclick="toggleLayer(this)">Today</button>
+        <button class="view-toggle active-nearterm" data-layer="nearterm" onclick="toggleLayer(this)">Near-term</button>
+        <button class="view-toggle active-longterm" data-layer="longterm" onclick="toggleLayer(this)">Long-term</button>
+      </div>
+    </div>
+    <div class="chart-wrapper">
+      <canvas id="radarChart"></canvas>
+    </div>
+    <div class="chart-legend">
+      <div class="legend-item legend-today"><span class="legend-swatch"></span> Today</div>
+      <div class="legend-item legend-nearterm"><span class="legend-swatch"></span> Near-term (3–6 mo)</div>
+      <div class="legend-item legend-longterm"><span class="legend-swatch"></span> Long-term (6–12+ mo)</div>
+    </div>
+  </div>
+
+  <!-- STRONG AREAS -->
+  <div class="details-section">
+    <div class="section-divider">
+      <span class="section-divider-line"></span>
+      <span class="section-divider-text">Where AcuityAI is Strong</span>
+      <span class="section-divider-line"></span>
+    </div>
+    <div class="details-grid" id="strongGrid"></div>
+  </div>
+
+  <!-- INVESTING AREAS -->
+  <div class="details-section">
+    <div class="section-divider">
+      <span class="section-divider-line"></span>
+      <span class="section-divider-text">Actively Investing</span>
+      <span class="section-divider-line"></span>
+    </div>
+    <div class="details-grid" id="investingGrid"></div>
+  </div>
+
+  <!-- GAP AREAS -->
+  <div class="details-section">
+    <div class="section-divider">
+      <span class="section-divider-line"></span>
+      <span class="section-divider-text">Known Gaps</span>
+      <span class="section-divider-line"></span>
+    </div>
+    <div class="details-grid" id="gapGrid"></div>
+  </div>
+
+  <footer>
+    AcuityAI Capability Map &middot; Updated March 2026 &middot; Internal Use
+  </footer>
+</div>
+
+<script>
+const categories = [
+  {
+    name: 'HCP Research & Profiling',
+    today: 0.92, nearterm: 0.95, longterm: 0.97,
+    tier: 'strong',
+    todayDesc: 'Full provider profiles — demographics, clinical volumes, peer networks, referrals, publications, prescribing, scheduling, and engagement history across 16 dedicated tools.',
+    todayExample: '"Give me a full rundown on Dr. Sarah Chen — her procedure volumes, top sites, and any recent publications I can use as conversation starters."',
+    roadmapDesc: 'Citation support to source every data point. Improved data freshness and cross-session context retention.',
+    gapDesc: 'No cross-session memory of prior research. Each conversation starts fresh.',
+    gapExample: '"Remember what we discussed about Dr. Chen last week and build on that." — not yet supported.'
+  },
+  {
+    name: 'Account / SOC Research',
+    today: 0.90, nearterm: 0.93, longterm: 0.96,
+    tier: 'strong',
+    todayDesc: 'Deep account intelligence — procedure volumes, payer breakdowns, contacts, contracts, network affiliations, referral patterns, and web-sourced demographics.',
+    todayExample: '"What\'s the payer mix at Memorial Hospital, and who are the key contacts I should know about?"',
+    roadmapDesc: 'Deeper demographic data, citation support, and linking addresses directly to Google Maps.',
+    gapDesc: 'No competitive landscape data for accounts.',
+    gapExample: '"Which competitors have contracts at Memorial Hospital?" — not yet supported.'
+  },
+  {
+    name: 'Call & Meeting Prep',
+    today: 0.88, nearterm: 0.92, longterm: 0.95,
+    tier: 'strong',
+    todayDesc: 'Data-backed call plans for HCP, SOC, and IDN meetings (~1,000 words with inline charts). Includes "get me in the door" strategies.',
+    todayExample: '"Generate a call plan for my meeting with Dr. Patel at St. Luke\'s next Tuesday."',
+    roadmapDesc: 'Advanced call plan features and improved clinical practice data integration.',
+    gapDesc: 'No auto-integration with calendar for pre-meeting prep triggers.',
+    gapExample: '"Automatically prep me before every meeting on my calendar." — not yet supported.'
+  },
+  {
+    name: 'Territory Prioritization',
+    today: 0.82, nearterm: 0.88, longterm: 0.93,
+    tier: 'strong',
+    todayDesc: 'Top HCPs and SOCs with extensive filtering, natural language filter resolution, and cross-entity utilization analysis. Up to 100 results per query.',
+    todayExample: '"Show me my top 10 orthopedic surgeons by volume who aren\'t using our products yet."',
+    roadmapDesc: 'Expanded landing page with quick actions. Role-based permissions for agent access.',
+    gapDesc: 'Results capped at 100. No saved targeting lists within AcuityAI.',
+    gapExample: '"Save this list of high-priority targets and alert me when anything changes." — not yet supported.'
+  },
+  {
+    name: 'Referral Network Analysis',
+    today: 0.78, nearterm: 0.82, longterm: 0.88,
+    tier: 'strong',
+    todayDesc: 'Peer networks with collaboration factors, inbound/outbound referral patterns, and "find warm intros" for relationship-based access.',
+    todayExample: '"Who refers the most patients to Dr. Kim, and is there a warm intro I can leverage?"',
+    roadmapDesc: 'Deeper network visualization and expanded result limits.',
+    gapDesc: 'Max 20 results. No multi-hop referral chain analysis.',
+    gapExample: '"Map the full referral chain from primary care to the surgeon for spine cases in my territory." — not yet supported.'
+  },
+  {
+    name: 'Sales Analytics & Forecasting',
+    today: 0.72, nearterm: 0.82, longterm: 0.90,
+    tier: 'investing',
+    todayDesc: 'Sales trends by quarter/month, quota tracking with attainment, forecast data with growth metrics, and line chart visualizations.',
+    todayExample: '"How am I tracking against quota this quarter, and which accounts are driving the most growth?"',
+    roadmapDesc: 'Bar and pie charts coming to main UI (currently playground-only). Improved visualization options.',
+    gapDesc: 'Only line charts available in AcuityAI today. Bar/pie charts are playground-only.',
+    gapExample: '"Show me a bar chart comparing sales by product across my top 5 accounts." — bar charts coming soon.'
+  },
+  {
+    name: 'Next Best Action',
+    today: 0.55, nearterm: 0.75, longterm: 0.88,
+    tier: 'investing',
+    todayDesc: 'Scored, strategy-aware recommendations categorized as new business, win-back, upsize, or cross-sell. Factor breakdowns explain the "why."',
+    todayExample: '"What should I focus on this week? Give me my top recommended next steps."',
+    roadmapDesc: 'Major active investment (P0). Continued development of scoring models and recommendation quality.',
+    gapDesc: 'Newly launched — models are still maturing. Max 20 recommendations per query.',
+    gapExample: '"Why did you rank this account higher than that one?" — explanations are improving as models mature.'
+  },
+  {
+    name: 'Route & Visit Planning',
+    today: 0.58, nearterm: 0.72, longterm: 0.85,
+    tier: 'investing',
+    todayDesc: 'Interactive Google Maps with clickable pins, route planning, nearby SOC search, and mobile geolocation awareness.',
+    todayExample: '"Show me all sites of care within 15 miles of my current location and plan a route."',
+    roadmapDesc: 'Enhanced visit planner workflows with multi-stop optimization.',
+    gapDesc: 'No calendar integration. No multi-day trip planning. No drive-time optimization.',
+    gapExample: '"Plan my full week of visits across 3 cities with drive times and overnight stays." — not yet supported.'
+  },
+  {
+    name: 'Email & Outreach',
+    today: 0.55, nearterm: 0.65, longterm: 0.80,
+    tier: 'investing',
+    todayDesc: 'Data-informed email drafts with max 60-character subject and 150-word body. No placeholder text — ready to send.',
+    todayExample: '"Draft an intro email to Dr. Lopez referencing her recent knee replacement volume growth."',
+    roadmapDesc: 'Improved templates and personalization based on HCP engagement history.',
+    gapDesc: 'Draft only — no send capability. No CRM email integration. No sequence/cadence support.',
+    gapExample: '"Send this email through Salesforce and schedule a follow-up in 5 days." — not yet supported.'
+  },
+  {
+    name: 'Pipeline Management',
+    today: 0.48, nearterm: 0.68, longterm: 0.85,
+    tier: 'investing',
+    todayDesc: 'View opportunities by HCP/SOC with stage, products, and values. See pipeline stage definitions and quota data.',
+    todayExample: '"Show me all open opportunities at Mercy Health and their current stages."',
+    roadmapDesc: 'Create opportunities via HITL confirmation flow. Pipeline update and management capabilities.',
+    gapDesc: 'Read-only today — cannot create or update opportunities. No Salesforce write-back.',
+    gapExample: '"Create a new opportunity for the hip system at Mercy Health and set it to \'Demo Scheduled.\'" — coming soon.'
+  },
+  {
+    name: 'CRM Updates & Data Entry',
+    today: 0.35, nearterm: 0.52, longterm: 0.75,
+    tier: 'gap',
+    todayDesc: 'Create, update, and delete activity notes. Create meetings/events. All via human-in-the-loop confirmation.',
+    todayExample: '"Log a note that I met with Dr. Nguyen today and she\'s interested in a trial of our shoulder system."',
+    roadmapDesc: 'Opportunity creation via HITL. Salesforce pipeline create/update on backlog.',
+    gapDesc: 'Limited to notes and events. No opportunity management. No Salesforce sync.',
+    gapExample: '"Update the opportunity stage in Salesforce to \'Closed Won\' and log the final price." — not yet supported.'
+  },
+  {
+    name: 'Document & Knowledge Search',
+    today: 0.38, nearterm: 0.58, longterm: 0.72,
+    tier: 'gap',
+    todayDesc: 'Help Center article search, customer document semantic search, and real-time web research for any entity.',
+    todayExample: '"Search our uploaded docs for the clinical study on our spinal fusion system."',
+    roadmapDesc: 'AcuityMD platform knowledge, citation support (P2), and auto-expiring customer documents.',
+    gapDesc: 'No user document upload in chat. Limited platform knowledge. No citation sourcing yet.',
+    gapExample: '"Upload this PDF of the new pricing sheet and answer questions about it." — not yet supported.'
+  },
+  {
+    name: 'Market Access Research',
+    today: 0.25, nearterm: 0.38, longterm: 0.58,
+    tier: 'gap',
+    todayDesc: 'Basic payer channel data and payer parent breakdowns with quarterly trends at HCP and SOC levels.',
+    todayExample: '"What\'s the payer channel breakdown for total knee replacements at Riverside Medical?"',
+    roadmapDesc: 'Improved payer insights and broader market access data integration.',
+    gapDesc: 'No formulary data, reimbursement guidance, prior authorization info, or coverage policies.',
+    gapExample: '"Does Blue Cross require prior auth for our device at this facility, and what\'s the reimbursement rate?" — not yet supported.'
+  },
+  {
+    name: 'Similar Provider Discovery',
+    today: 0.18, nearterm: 0.32, longterm: 0.62,
+    tier: 'gap',
+    todayDesc: 'Peer networks show collaborators based on shared patients and procedures, but not "similar" providers by practice profile.',
+    todayExample: '"Who does Dr. Martinez collaborate with most frequently?"',
+    roadmapDesc: 'Enhanced matching algorithms to find providers with similar practice patterns and volumes.',
+    gapDesc: 'Cannot find providers similar to a target by procedure mix, volume, specialty, or adoption profile. Known customer request.',
+    gapExample: '"Find surgeons similar to Dr. Martinez — same specialty, similar volume, early adopter of new tech." — not yet supported.'
+  }
+];
+
+// Chart setup
+const ctx = document.getElementById('radarChart').getContext('2d');
+
+const chartData = {
+  labels: categories.map(c => c.name),
+  datasets: [
+    {
+      label: 'Long-term (6–12+ mo)',
+      data: categories.map(c => c.longterm),
+      backgroundColor: 'rgba(139, 92, 246, 0.06)',
+      borderColor: 'rgba(139, 92, 246, 0.55)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(139, 92, 246, 0.7)',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 1,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+    },
+    {
+      label: 'Near-term (3–6 mo)',
+      data: categories.map(c => c.nearterm),
+      backgroundColor: 'rgba(59, 130, 246, 0.08)',
+      borderColor: 'rgba(59, 130, 246, 0.65)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(59, 130, 246, 0.8)',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 1,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+    },
+    {
+      label: 'Today',
+      data: categories.map(c => c.today),
+      backgroundColor: 'rgba(16, 185, 129, 0.13)',
+      borderColor: 'rgba(16, 185, 129, 0.8)',
+      borderWidth: 2.5,
+      pointBackgroundColor: 'rgba(16, 185, 129, 0.9)',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 1,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+    }
+  ]
+};
+
+const chart = new Chart(ctx, {
+  type: 'radar',
+  data: chartData,
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.9)',
+        titleFont: { family: 'Inter', size: 13, weight: '600' },
+        bodyFont: { family: 'Inter', size: 12 },
+        padding: 12,
+        cornerRadius: 8,
+        callbacks: {
+          label: function(context) {
+            return context.dataset.label + ': ' + Math.round(context.raw * 100) + '%';
+          }
+        }
+      }
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        min: 0,
+        max: 1,
+        ticks: {
+          stepSize: 0.2,
+          font: { family: 'Inter', size: 10 },
+          color: '#9CA3AF',
+          backdropColor: 'transparent',
+          callback: function(value) { return Math.round(value * 100) + '%'; }
+        },
+        pointLabels: {
+          font: { family: 'Inter', size: 12, weight: '500' },
+          color: '#374151',
+          padding: 16,
+        },
+        grid: {
+          color: 'rgba(209, 213, 219, 0.5)',
+        },
+        angleLines: {
+          color: 'rgba(209, 213, 219, 0.4)',
+        }
+      }
+    },
+    elements: {
+      line: { tension: 0.15 }
+    }
+  }
+});
+
+// Map layer names to dataset indices and legend classes
+const layerMap = {
+  today:    { datasetIndex: 2, legendClass: 'legend-today',    activeClass: 'active-today' },
+  nearterm: { datasetIndex: 1, legendClass: 'legend-nearterm', activeClass: 'active-nearterm' },
+  longterm: { datasetIndex: 0, legendClass: 'legend-longterm', activeClass: 'active-longterm' },
+};
+
+function toggleLayer(btn) {
+  const layer = btn.dataset.layer;
+  const info = layerMap[layer];
+
+  // Toggle the button's active state
+  const isActive = btn.classList.contains(info.activeClass);
+  if (isActive) {
+    btn.classList.remove(info.activeClass);
+  } else {
+    btn.classList.add(info.activeClass);
+  }
+
+  // Sync chart visibility
+  const nowActive = btn.classList.contains(info.activeClass);
+  chart.data.datasets[info.datasetIndex].hidden = !nowActive;
+
+  // Sync legend dimming
+  const legendItem = document.querySelector('.' + info.legendClass);
+  if (nowActive) {
+    legendItem.classList.remove('dimmed');
+  } else {
+    legendItem.classList.add('dimmed');
+  }
+  chart.update();
+}
+
+// Render detail cards
+function renderCards() {
+  const strong = categories.filter(c => c.tier === 'strong');
+  const investing = categories.filter(c => c.tier === 'investing');
+  const gap = categories.filter(c => c.tier === 'gap');
+
+  function statusLabel(score) {
+    if (score >= 0.75) return '<span class="status-badge strong">Strong</span>';
+    if (score >= 0.45) return '<span class="status-badge moderate">Moderate</span>';
+    return '<span class="status-badge gap">Gap</span>';
+  }
+
+  function cardHTML(c) {
+    const cardClass = c.tier === 'strong' ? 'strong-card' : c.tier === 'investing' ? 'investing-card' : 'gap-card';
+    return `
+      <div class="detail-card ${cardClass}">
+        <div class="detail-card-header">
+          <div class="detail-card-title">${c.name}</div>
+          ${statusLabel(c.today)}
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Today</div>
+          <div class="detail-text">${c.todayDesc}</div>
+          <div class="detail-example">${c.todayExample}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Roadmap</div>
+          <div class="detail-text">${c.roadmapDesc}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Gap</div>
+          <div class="detail-text">${c.gapDesc}</div>
+          <div class="detail-example">${c.gapExample}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('strongGrid').innerHTML = strong.map(cardHTML).join('');
+  document.getElementById('investingGrid').innerHTML = investing.map(cardHTML).join('');
+  document.getElementById('gapGrid').innerHTML = gap.map(cardHTML).join('');
+}
+
+renderCards();
+</script>
+</body>
+</html>
