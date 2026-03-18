@@ -416,6 +416,7 @@ const categories = [
     todayDesc: 'Full provider profiles — demographics, clinical volumes, peer networks, referrals, publications, prescribing, scheduling, and engagement history across 16 dedicated tools.',
     todayExample: '"Give me a full rundown on Dr. Sarah Chen — her procedure volumes, top sites, and any recent publications I can use as conversation starters."',
     roadmapDesc: 'Citation support to source every data point. Improved data freshness and cross-session context retention.',
+    roadmapExample: '"Where did you get that 15% volume increase figure?" — citation sourcing coming soon.',
     gapDesc: 'No cross-session memory of prior research. Each conversation starts fresh.',
     gapExample: '"Remember what we discussed about Dr. Chen last week and build on that." — not yet supported.'
   },
@@ -426,6 +427,7 @@ const categories = [
     todayDesc: 'Deep account intelligence — procedure volumes, payer breakdowns, contacts, contracts, network affiliations, referral patterns, and web-sourced demographics.',
     todayExample: '"What\'s the payer mix at Memorial Hospital, and who are the key contacts I should know about?"',
     roadmapDesc: 'Deeper demographic data, citation support, and linking addresses directly to Google Maps.',
+    roadmapExample: '"Open Memorial Hospital in Google Maps and show me directions." — linking coming soon.',
     gapDesc: 'No competitive landscape data for accounts.',
     gapExample: '"Which competitors have contracts at Memorial Hospital?" — not yet supported.'
   },
@@ -436,6 +438,7 @@ const categories = [
     todayDesc: 'Data-backed call plans for HCP, SOC, and IDN meetings (~1,000 words with inline charts). Includes "get me in the door" strategies.',
     todayExample: '"Generate a call plan for my meeting with Dr. Patel at St. Luke\'s next Tuesday."',
     roadmapDesc: 'Advanced call plan features and improved clinical practice data integration.',
+    roadmapExample: '"Include Dr. Patel\'s full clinical practice breakdown in the call plan." — deeper data integration coming soon.',
     gapDesc: 'No auto-integration with calendar for pre-meeting prep triggers.',
     gapExample: '"Automatically prep me before every meeting on my calendar." — not yet supported.'
   },
@@ -446,6 +449,7 @@ const categories = [
     todayDesc: 'Top HCPs and SOCs with extensive filtering, natural language filter resolution, and cross-entity utilization analysis. Up to 100 results per query.',
     todayExample: '"Show me my top 10 orthopedic surgeons by volume who aren\'t using our products yet."',
     roadmapDesc: 'Expanded landing page with quick actions. Role-based permissions for agent access.',
+    roadmapExample: '"Show me a quick overview of my territory with suggested actions." — expanded landing page coming soon.',
     gapDesc: 'Results capped at 100. No saved targeting lists within AcuityAI.',
     gapExample: '"Save this list of high-priority targets and alert me when anything changes." — not yet supported.'
   },
@@ -456,6 +460,7 @@ const categories = [
     todayDesc: 'Peer networks with collaboration factors, inbound/outbound referral patterns, and "find warm intros" for relationship-based access.',
     todayExample: '"Who refers the most patients to Dr. Kim, and is there a warm intro I can leverage?"',
     roadmapDesc: 'Deeper network visualization and expanded result limits.',
+    roadmapExample: '"Show me the top 50 referral connections for Dr. Kim." — expanded limits coming soon.',
     gapDesc: 'Max 20 results. No multi-hop referral chain analysis.',
     gapExample: '"Map the full referral chain from primary care to the surgeon for spine cases in my territory." — not yet supported.'
   },
@@ -466,6 +471,7 @@ const categories = [
     todayDesc: 'Sales trends by quarter/month, quota tracking with attainment, forecast data with growth metrics, and line chart visualizations.',
     todayExample: '"How am I tracking against quota this quarter, and which accounts are driving the most growth?"',
     roadmapDesc: 'Bar and pie charts coming to main UI (currently playground-only). Improved visualization options.',
+    roadmapExample: '"Show me a bar chart of sales by product across my top 5 accounts." — bar charts coming to main UI soon.',
     gapDesc: 'Only line charts available in AcuityAI today. Bar/pie charts are playground-only.',
     gapExample: '"Show me a bar chart comparing sales by product across my top 5 accounts." — bar charts coming soon.'
   },
@@ -476,6 +482,7 @@ const categories = [
     todayDesc: 'Scored, strategy-aware recommendations categorized as new business, win-back, upsize, or cross-sell. Factor breakdowns explain the "why."',
     todayExample: '"What should I focus on this week? Give me my top recommended next steps."',
     roadmapDesc: 'Major active investment (P0). Continued development of scoring models and recommendation quality.',
+    roadmapExample: '"Explain exactly why you recommend I visit this account over that one." — deeper explanations improving.',
     gapDesc: 'Newly launched — models are still maturing. Max 20 recommendations per query.',
     gapExample: '"Why did you rank this account higher than that one?" — explanations are improving as models mature.'
   },
@@ -486,6 +493,7 @@ const categories = [
     todayDesc: 'Interactive Google Maps with clickable pins, route planning, nearby SOC search, and mobile geolocation awareness.',
     todayExample: '"Show me all sites of care within 15 miles of my current location and plan a route."',
     roadmapDesc: 'Enhanced visit planner workflows with multi-stop optimization.',
+    roadmapExample: '"Optimize my route to hit these 6 sites in the shortest drive time." — multi-stop optimization coming soon.',
     gapDesc: 'No calendar integration. No multi-day trip planning. No drive-time optimization.',
     gapExample: '"Plan my full week of visits across 3 cities with drive times and overnight stays." — not yet supported.'
   },
@@ -496,6 +504,7 @@ const categories = [
     todayDesc: 'Data-informed email drafts with max 60-character subject and 150-word body. No placeholder text — ready to send.',
     todayExample: '"Draft an intro email to Dr. Lopez referencing her recent knee replacement volume growth."',
     roadmapDesc: 'Improved templates and personalization based on HCP engagement history.',
+    roadmapExample: '"Draft a follow-up email referencing our last 3 interactions with Dr. Lopez." — engagement-aware personalization coming soon.',
     gapDesc: 'Draft only — no send capability. No CRM email integration. No sequence/cadence support.',
     gapExample: '"Send this email through Salesforce and schedule a follow-up in 5 days." — not yet supported.'
   },
@@ -506,6 +515,7 @@ const categories = [
     todayDesc: 'View opportunities by HCP/SOC with stage, products, and values. See pipeline stage definitions and quota data.',
     todayExample: '"Show me all open opportunities at Mercy Health and their current stages."',
     roadmapDesc: 'Create opportunities via HITL confirmation flow. Pipeline update and management capabilities.',
+    roadmapExample: '"Create a new opportunity for the hip system at Mercy Health." — opportunity creation coming soon.',
     gapDesc: 'Read-only today — cannot create or update opportunities. No Salesforce write-back.',
     gapExample: '"Create a new opportunity for the hip system at Mercy Health and set it to \'Demo Scheduled.\'" — coming soon.'
   },
@@ -516,6 +526,7 @@ const categories = [
     todayDesc: 'Create, update, and delete activity notes. Create meetings/events. All via human-in-the-loop confirmation.',
     todayExample: '"Log a note that I met with Dr. Nguyen today and she\'s interested in a trial of our shoulder system."',
     roadmapDesc: 'Opportunity creation via HITL. Salesforce pipeline create/update on backlog.',
+    roadmapExample: '"Create an opportunity and log it in Salesforce." — HITL opportunity creation coming soon.',
     gapDesc: 'Limited to notes and events. No opportunity management. No Salesforce sync.',
     gapExample: '"Update the opportunity stage in Salesforce to \'Closed Won\' and log the final price." — not yet supported.'
   },
@@ -526,6 +537,7 @@ const categories = [
     todayDesc: 'Help Center article search, customer document semantic search, and real-time web research for any entity.',
     todayExample: '"Search our uploaded docs for the clinical study on our spinal fusion system."',
     roadmapDesc: 'AcuityMD platform knowledge, citation support (P2), and auto-expiring customer documents.',
+    roadmapExample: '"How do I set up a targeting strategy in AcuityMD?" — platform knowledge coming soon.',
     gapDesc: 'No user document upload in chat. Limited platform knowledge. No citation sourcing yet.',
     gapExample: '"Upload this PDF of the new pricing sheet and answer questions about it." — not yet supported.'
   },
@@ -536,6 +548,7 @@ const categories = [
     todayDesc: 'Basic payer channel data and payer parent breakdowns with quarterly trends at HCP and SOC levels.',
     todayExample: '"What\'s the payer channel breakdown for total knee replacements at Riverside Medical?"',
     roadmapDesc: 'Improved payer insights and broader market access data integration.',
+    roadmapExample: '"Break down the payer trends for this procedure at this site over the last year." — deeper payer insights coming soon.',
     gapDesc: 'No formulary data, reimbursement guidance, prior authorization info, or coverage policies.',
     gapExample: '"Does Blue Cross require prior auth for our device at this facility, and what\'s the reimbursement rate?" — not yet supported.'
   },
@@ -546,6 +559,7 @@ const categories = [
     todayDesc: 'Peer networks show collaborators based on shared patients and procedures, but not "similar" providers by practice profile.',
     todayExample: '"Who does Dr. Martinez collaborate with most frequently?"',
     roadmapDesc: 'Enhanced matching algorithms to find providers with similar practice patterns and volumes.',
+    roadmapExample: '"Find 10 surgeons with a similar procedure mix to Dr. Martinez." — similarity matching coming soon.',
     gapDesc: 'Cannot find providers similar to a target by procedure mix, volume, specialty, or adoption profile. Known customer request.',
     gapExample: '"Find surgeons similar to Dr. Martinez — same specialty, similar volume, early adopter of new tech." — not yet supported.'
   }
@@ -690,19 +704,12 @@ function renderCards() {
   const investing = categories.filter(c => c.tier === 'investing');
   const gap = categories.filter(c => c.tier === 'gap');
 
-  function statusLabel(score) {
-    if (score >= 0.75) return '<span class="status-badge strong">Strong</span>';
-    if (score >= 0.45) return '<span class="status-badge moderate">Moderate</span>';
-    return '<span class="status-badge gap">Gap</span>';
-  }
-
   function cardHTML(c) {
     const cardClass = c.tier === 'strong' ? 'strong-card' : c.tier === 'investing' ? 'investing-card' : 'gap-card';
     return `
       <div class="detail-card ${cardClass}">
         <div class="detail-card-header">
           <div class="detail-card-title">${c.name}</div>
-          ${statusLabel(c.today)}
         </div>
         <div class="detail-row">
           <div class="detail-label">Today</div>
@@ -712,6 +719,7 @@ function renderCards() {
         <div class="detail-row">
           <div class="detail-label">Roadmap</div>
           <div class="detail-text">${c.roadmapDesc}</div>
+          <div class="detail-example">${c.roadmapExample}</div>
         </div>
         <div class="detail-row">
           <div class="detail-label">Gap</div>
