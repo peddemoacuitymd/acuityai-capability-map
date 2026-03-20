@@ -341,11 +341,11 @@
   <div class="summary-bar">
     <div class="summary-pill strong">
       <span class="summary-dot"></span>
-      5 Strong areas
+      4 Strong areas
     </div>
     <div class="summary-pill investing">
       <span class="summary-dot"></span>
-      5 Actively investing
+      6 Actively investing
     </div>
     <div class="summary-pill gap">
       <span class="summary-dot"></span>
@@ -444,14 +444,14 @@ const categories = [
   },
   {
     name: 'Territory Prioritization',
-    today: 0.82, nearterm: 0.88, longterm: 0.93,
-    tier: 'strong',
-    todayDesc: 'Top HCPs and SOCs with extensive filtering, natural language filter resolution, and cross-entity utilization analysis. Up to 100 results per query.',
+    today: 0.62, nearterm: 0.75, longterm: 0.90,
+    tier: 'investing',
+    todayDesc: 'Top HCPs and SOCs with filtering, natural language filter resolution, and cross-entity utilization analysis. Returns good results but not exhaustive coverage.',
     todayExample: '"Show me my top 10 orthopedic surgeons by volume who aren\'t using our products yet."',
-    roadmapDesc: 'Expanded landing page with quick actions. Role-based permissions for agent access.',
-    roadmapExample: '"Show me a quick overview of my territory with suggested actions." — expanded landing page coming soon.',
-    gapDesc: 'Results capped at 100. No saved targeting lists within AcuityAI.',
-    gapExample: '"Save this list of high-priority targets and alert me when anything changes." — not yet supported.'
+    roadmapDesc: 'More comprehensive territory-level results. Expanded landing page with quick actions.',
+    roadmapExample: '"Give me a complete whitespace analysis across my entire territory." — comprehensive coverage improving.',
+    gapDesc: 'Results are a sample, not exhaustive. Can\'t guarantee you\'re seeing ALL or the BEST whitespace opportunities. Territory-level queries return partial results.',
+    gapExample: '"Show me every whitespace opportunity in my territory, ranked by potential." — returns some but not all opportunities.'
   },
   {
     name: 'Referral Network Analysis',
@@ -466,14 +466,14 @@ const categories = [
   },
   {
     name: 'Sales Analytics & Forecasting',
-    today: 0.72, nearterm: 0.82, longterm: 0.90,
-    tier: 'investing',
-    todayDesc: 'Sales trends by quarter/month, quota tracking with attainment, forecast data with growth metrics, and line chart visualizations.',
-    todayExample: '"How am I tracking against quota this quarter, and which accounts are driving the most growth?"',
-    roadmapDesc: 'Bar and pie charts coming to the main experience. Improved visualization options.',
-    roadmapExample: '"Show me a bar chart of sales by product across my top 5 accounts." — bar charts coming to main UI soon.',
-    gapDesc: 'Only line charts available in AcuityAI today. Bar and pie charts coming soon.',
-    gapExample: '"Show me a bar chart comparing sales by product across my top 5 accounts." — bar charts coming soon.'
+    today: 0.40, nearterm: 0.58, longterm: 0.78,
+    tier: 'gap',
+    todayDesc: 'Basic sales trends by quarter/month and quota tracking with attainment. Line chart visualizations only. No predictive forecasting.',
+    todayExample: '"How am I tracking against quota this quarter?"',
+    roadmapDesc: 'Bar and pie charts coming to the main experience. Richer visualization and forecasting capabilities.',
+    roadmapExample: '"Show me a bar chart of sales by product across my top 5 accounts." — richer visualizations coming soon.',
+    gapDesc: 'No predictive forecasting. Limited to line charts. No what-if scenario modeling or trend projections.',
+    gapExample: '"Based on my current pipeline, forecast where I\'ll land against quota by end of quarter." — not yet supported.'
   },
   {
     name: 'Next Best Action',
@@ -554,14 +554,14 @@ const categories = [
   },
   {
     name: 'Similar Provider Discovery',
-    today: 0.18, nearterm: 0.32, longterm: 0.62,
-    tier: 'gap',
-    todayDesc: 'Peer networks show collaborators based on shared patients and procedures, but not "similar" providers by practice profile.',
-    todayExample: '"Who does Dr. Martinez collaborate with most frequently?"',
-    roadmapDesc: 'Enhanced matching algorithms to find providers with similar practice patterns and volumes.',
-    roadmapExample: '"Find 10 surgeons with a similar procedure mix to Dr. Martinez." — similarity matching coming soon.',
-    gapDesc: 'Cannot find providers similar to a target by procedure mix, volume, specialty, or adoption profile. Known customer request.',
-    gapExample: '"Find surgeons similar to Dr. Martinez — same specialty, similar volume, early adopter of new tech." — not yet supported.'
+    today: 0.58, nearterm: 0.72, longterm: 0.85,
+    tier: 'investing',
+    todayDesc: 'The underlying data is strong — specialty, fellowship, education, procedure volumes, and practice patterns are all available. Reps can compare providers on these dimensions today.',
+    todayExample: '"Show me orthopedic surgeons with a similar fellowship and procedure volume to Dr. Martinez."',
+    roadmapDesc: 'Dedicated similarity matching that automatically compares across all dimensions at once.',
+    roadmapExample: '"Find my top 10 look-alikes for Dr. Martinez based on everything you know about her." — auto-matching coming soon.',
+    gapDesc: 'No single command that auto-matches across all dimensions at once. Reps need to know which attributes to compare manually.',
+    gapExample: '"Automatically find my top 10 look-alikes for Dr. Martinez across my full territory." — not yet supported.'
   }
 ];
 
