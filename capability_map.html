@@ -366,11 +366,11 @@
     </div>
     <div class="summary-pill investing">
       <span class="summary-dot"></span>
-      5 Actively investing
+      7 Actively investing
     </div>
     <div class="summary-pill gap">
       <span class="summary-dot"></span>
-      4 Known gaps
+      2 Known gaps
     </div>
   </div>
 
@@ -477,7 +477,7 @@ const categories = [
     name: 'Call & Meeting Prep',
     today: 0.88, nearterm: 0.92, longterm: 0.95,
     tier: 'strong',
-    todayDesc: 'Data-backed call plans for HCP, SOC, and IDN meetings (~1,000 words with inline charts). Includes "get me in the door" strategies.',
+    todayDesc: 'Data-backed call plans for HCP and SOC meetings (~1,000 words with inline charts). Parallel data gathering across clinical volumes, referrals, sales, and contracts. Includes "get me in the door" strategies.',
     todayExample: '"Generate a call plan for my meeting with Dr. Patel at St. Luke\'s next Tuesday."',
     roadmapDesc: 'Advanced call plan features and improved clinical practice data integration.',
     roadmapExample: '"Include Dr. Patel\'s full clinical practice breakdown in the call plan." — deeper data integration coming soon.',
@@ -508,13 +508,13 @@ const categories = [
   },
   {
     name: 'Sales Analytics & Forecasting',
-    today: 0.40, nearterm: 0.58, longterm: 0.78,
-    tier: 'gap',
-    todayDesc: 'Basic sales trends by quarter/month and quota tracking with attainment. Line chart visualizations only. No predictive forecasting.',
-    todayExample: '"How am I tracking against quota this quarter?"',
-    roadmapDesc: 'Bar and pie charts coming to the main experience. Richer visualization and forecasting capabilities.',
+    today: 0.52, nearterm: 0.68, longterm: 0.82,
+    tier: 'investing',
+    todayDesc: 'Eight dedicated tools covering quota attainment, sales trends over time, current period sales, pipeline stages, and forecast data. Line chart visualizations inline in conversation.',
+    todayExample: '"How am I tracking against quota this quarter, and show me my sales trend over the last 6 months?"',
+    roadmapDesc: 'Bar and pie charts coming to the main experience. Quota attainment visualization and territory-level rollups.',
     roadmapExample: '"Show me a bar chart of sales by product across my top 5 accounts." — richer visualizations coming soon.',
-    gapDesc: 'No predictive forecasting. Limited to line charts. No what-if scenario modeling or trend projections.',
+    gapDesc: 'No predictive forecasting or trend projections. Limited to line charts. No what-if scenario modeling.',
     gapExample: '"Based on my current pipeline, forecast where I\'ll land against quota by end of quarter." — not yet supported.'
   },
   {
@@ -552,9 +552,9 @@ const categories = [
   },
   {
     name: 'Pipeline Management',
-    today: 0.48, nearterm: 0.68, longterm: 0.85,
+    today: 0.55, nearterm: 0.72, longterm: 0.85,
     tier: 'investing',
-    todayDesc: 'View opportunities by HCP/SOC with stage, products, and values. See pipeline stage definitions and quota data.',
+    todayDesc: 'View opportunities by HCP/SOC with stage, products, and values. Pipeline stage definitions, quota data, and sales forecast data all accessible in conversation.',
     todayExample: '"Show me all open opportunities at Mercy Health and their current stages."',
     roadmapDesc: 'Create opportunities with a review-and-confirm step. Pipeline update and management capabilities.',
     roadmapExample: '"Create a new opportunity for the hip system at Mercy Health." — opportunity creation coming soon.',
@@ -574,9 +574,9 @@ const categories = [
   },
   {
     name: 'Document & Knowledge Search',
-    today: 0.38, nearterm: 0.58, longterm: 0.72,
-    tier: 'gap',
-    todayDesc: 'Help Center article search, customer document semantic search, and real-time web research for any entity.',
+    today: 0.48, nearterm: 0.62, longterm: 0.78,
+    tier: 'investing',
+    todayDesc: 'Three search capabilities: customer document RAG for org-uploaded playbooks and product sheets, Help Center article search, and real-time web research for public information on any entity.',
     todayExample: '"Search our uploaded docs for the clinical study on our spinal fusion system."',
     roadmapDesc: 'AcuityMD platform knowledge, citation support, and auto-expiring customer documents.',
     roadmapExample: '"How do I set up a targeting strategy in AcuityMD?" — platform knowledge coming soon.',
