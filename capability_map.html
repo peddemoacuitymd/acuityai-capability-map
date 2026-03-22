@@ -256,6 +256,18 @@
   .status-badge.moderate { background: var(--moderate-bg); color: #1E40AF; }
   .status-badge.gap { background: var(--gap-bg); color: #991B1B; }
 
+  .tier-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    background: #EEF2FF;
+    color: #4338CA;
+    border: 1px solid #C7D2FE;
+  }
+
   .detail-row {
     margin-bottom: 8px;
   }
@@ -507,7 +519,8 @@ const categories = [
     gapExample: '"Map the full referral chain from primary care to the surgeon for spine cases in my territory." — not yet supported.'
   },
   {
-    name: 'Sales Analytics & Forecasting (Advanced tier)',
+    name: 'Sales Analytics & Forecasting',
+    tierLabel: 'Advanced Tier',
     today: 0.52, nearterm: 0.68, longterm: 0.82,
     tier: 'investing',
     todayDesc: 'Eight dedicated tools covering quota attainment, sales trends over time, current period sales, pipeline stages, and forecast data. Line chart visualizations inline in conversation.',
@@ -739,6 +752,7 @@ function renderCards() {
       <div class="detail-card ${cardClass}">
         <div class="detail-card-header">
           <div class="detail-card-title">${c.name}</div>
+          ${c.tierLabel ? `<span class="tier-badge">${c.tierLabel}</span>` : ''}
         </div>
         <div class="detail-row">
           <div class="detail-label">Today</div>
