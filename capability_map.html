@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AcuityAI Capability Map</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -49,7 +48,7 @@
   .page-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 24px;
+    padding: 40px 16px;
   }
 
   header {
@@ -103,96 +102,98 @@
   .summary-pill.investing .summary-dot { background: var(--investing); }
   .summary-pill.gap .summary-dot { background: var(--gap); }
 
-  .chart-section {
+  .kanban-section {
     background: white;
     border-radius: 16px;
-    padding: 32px;
+    padding: 24px 16px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
     margin-bottom: 32px;
   }
 
-  .chart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .chart-title {
+  .kanban-title {
     font-size: 18px;
     font-weight: 600;
     color: var(--gray-900);
+    margin-bottom: 24px;
   }
 
-  .view-toggles {
-    display: flex;
-    gap: 6px;
+  .kanban-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
   }
 
-  .view-toggle {
-    padding: 8px 18px;
-    border: 2px solid var(--gray-200);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: white;
-    color: var(--gray-400);
-    user-select: none;
+  .kanban-column {
+    background: var(--gray-50);
+    border-radius: 12px;
+    padding: 16px;
+    min-height: 200px;
   }
 
-  .view-toggle:hover { border-color: var(--gray-300); }
-
-  .view-toggle.active-today {
-    background: rgba(16, 185, 129, 0.08);
-    border-color: var(--today-color);
-    color: #065F46;
-  }
-
-  .view-toggle.active-nearterm {
-    background: rgba(59, 130, 246, 0.08);
-    border-color: var(--nearterm-color);
-    color: #1E40AF;
-  }
-
-  .chart-wrapper {
-    position: relative;
-    max-width: 820px;
-    margin: 0 auto;
-  }
-
-  .chart-legend {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-
-  .legend-item {
+  .kanban-column-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid transparent;
+  }
+
+  .kanban-column-header.strong { border-bottom-color: var(--strong); }
+  .kanban-column-header.investing { border-bottom-color: var(--investing); }
+  .kanban-column-header.gap { border-bottom-color: var(--gap); }
+
+  .kanban-column-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .kanban-column-header.strong .kanban-column-title { color: #065F46; }
+  .kanban-column-header.investing .kanban-column-title { color: #92400E; }
+  .kanban-column-header.gap .kanban-column-title { color: #991B1B; }
+
+  .kanban-column-count {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 100px;
+  }
+
+  .kanban-column-header.strong .kanban-column-count { background: var(--strong-bg); color: #065F46; }
+  .kanban-column-header.investing .kanban-column-count { background: var(--investing-bg); color: #92400E; }
+  .kanban-column-header.gap .kanban-column-count { background: var(--gap-bg); color: #991B1B; }
+
+  .kanban-cards {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
+  }
+
+  .kanban-card {
+    background: white;
+    border-radius: 8px;
+    padding: 12px 14px;
+    border-left: 3px solid transparent;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
     font-size: 13px;
-    color: var(--gray-600);
-    transition: opacity 0.2s;
+    font-weight: 500;
+    color: var(--gray-700);
+    transition: transform 0.1s, box-shadow 0.1s;
   }
 
-  .legend-swatch {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
+  .kanban-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   }
 
-  .legend-today .legend-swatch { background: var(--today-color); }
-  .legend-nearterm .legend-swatch { background: var(--nearterm-color); }
-  .legend-longterm .legend-swatch { background: var(--longterm-color); }
+  .kanban-card.strong { border-left-color: var(--strong); }
+  .kanban-card.investing { border-left-color: var(--investing); }
+  .kanban-card.gap { border-left-color: var(--gap); }
 
-  .legend-item.dimmed { opacity: 0.3; }
+  .kanban-card .tier-badge {
+    margin-left: 8px;
+    vertical-align: middle;
+  }
 
   .details-section {
     margin-bottom: 32px;
@@ -355,12 +356,11 @@
     color: var(--gray-400);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     .page-container { padding: 24px 16px; }
     header h1 { font-size: 22px; }
     .details-grid { grid-template-columns: 1fr; }
-    .chart-section { padding: 20px; }
-    .chart-header { flex-direction: column; align-items: flex-start; }
+    .kanban-board { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -386,21 +386,9 @@
     </div>
   </div>
 
-  <div class="chart-section">
-    <div class="chart-header">
-      <div class="chart-title">Coverage by Job to Be Done</div>
-      <div class="view-toggles">
-        <button class="view-toggle active-today" data-layer="today" onclick="toggleLayer(this)">Today</button>
-        <button class="view-toggle active-nearterm" data-layer="nearterm" onclick="toggleLayer(this)">Near-term</button>
-      </div>
-    </div>
-    <div class="chart-wrapper">
-      <canvas id="radarChart"></canvas>
-    </div>
-    <div class="chart-legend">
-      <div class="legend-item legend-today"><span class="legend-swatch"></span> Today</div>
-      <div class="legend-item legend-nearterm"><span class="legend-swatch"></span> Near-term (3–6 mo)</div>
-    </div>
+  <div class="kanban-section">
+    <div class="kanban-title">Coverage by Job to Be Done</div>
+    <div class="kanban-board" id="kanbanBoard"></div>
   </div>
 
   <!-- STRONG AREAS -->
@@ -467,6 +455,7 @@ const categories = [
     name: 'HCP Research & Profiling',
     today: 0.92, nearterm: 0.95, longterm: 0.97,
     tier: 'strong',
+
     todayDesc: 'Full provider profiles — demographics, clinical volumes, peer networks, referrals, publications, prescribing, scheduling, engagement history, and competitive industry relationships across 16 dedicated tools.',
     todayExample: '"Give me a full rundown on Dr. Chen — her procedure volumes, top sites, industry relationships, and any recent publications I can use as conversation starters."',
     roadmapDesc: 'Citation support to source every data point. Improved data freshness and cross-session context retention.',
@@ -478,6 +467,7 @@ const categories = [
     name: 'Account / SOC Research',
     today: 0.90, nearterm: 0.93, longterm: 0.96,
     tier: 'strong',
+
     todayDesc: 'Deep account intelligence — procedure volumes, payer breakdowns, key contacts and decision makers, contracts, affiliated HCPs with volumes, referral patterns, and web-sourced demographics.',
     todayExample: '"Show me all HCPs affiliated with Memorial Hospital and their volumes, plus the key contacts and decision makers I should know."',
     roadmapDesc: 'Deeper demographic data, citation support, and linking addresses directly to Google Maps.',
@@ -489,6 +479,7 @@ const categories = [
     name: 'Call & Meeting Prep',
     today: 0.88, nearterm: 0.92, longterm: 0.95,
     tier: 'strong',
+
     todayDesc: 'Data-backed call plans for HCP and SOC meetings (~1,000 words with inline charts). Parallel data gathering across clinical volumes, referrals, sales, and contracts. Includes "get me in the door" access strategies using peer networks and warm intros.',
     todayExample: '"Generate a call plan for my meeting with Dr. Patel at St. Luke\'s, and how do I get in the door with her?"',
     roadmapDesc: 'Advanced call plan features and improved clinical practice data integration.',
@@ -500,6 +491,7 @@ const categories = [
     name: 'Territory Prioritization',
     today: 0.82, nearterm: 0.88, longterm: 0.94,
     tier: 'strong',
+
     todayDesc: 'Whitespace analysis by HCP and SOC with opportunity sizing, tiered ranking, facility cluster identification, and natural language filtering. Actively paginates beyond initial results to build comprehensive lists of 60+ targets. Good for finding high-volume non-customers and underpenetrated accounts.',
     todayExample: '"Show me every cardiologist in my territory doing more than 100 pacemakers per year who isn\'t a customer, ranked by opportunity, broken down by site."',
     roadmapDesc: 'Expanded landing page with quick actions and saved targeting lists.',
@@ -511,6 +503,7 @@ const categories = [
     name: 'Referral Network Analysis',
     today: 0.78, nearterm: 0.82, longterm: 0.88,
     tier: 'strong',
+
     todayDesc: 'Peer networks with collaboration factors, inbound/outbound referral patterns, training-tree connections (fellowship, residency), and "find warm intros" for relationship-based access.',
     todayExample: '"Who refers patients to Dr. Kim? Find me a warm intro, and show me HCPs from her same fellowship."',
     roadmapDesc: 'Deeper network visualization and expanded result limits.',
@@ -523,6 +516,7 @@ const categories = [
     tierLabel: 'Advanced Tier',
     today: 0.52, nearterm: 0.68, longterm: 0.82,
     tier: 'investing',
+
     todayDesc: 'Eight dedicated tools covering quota attainment by product, sales trends over time, current period sales, pipeline stages, and forecast data. Line chart visualizations inline. Can compare top facilities side by side.',
     todayExample: '"Show me quota attainment by product, and compare my top 3 facilities by volume and sales trends."',
     roadmapDesc: 'Bar and pie charts coming to the main experience. Quota attainment visualization and territory-level rollups.',
@@ -534,6 +528,7 @@ const categories = [
     name: 'Next Best Action',
     today: 0.55, nearterm: 0.75, longterm: 0.88,
     tier: 'investing',
+
     todayDesc: 'Scored, strategy-aware recommendations categorized as new business, win-back, upsize, or cross-sell. Factor breakdowns explain the "why." Can surface cross-sell opportunities and identify who to meet first.',
     todayExample: '"What should I focus on this week? Who are the 10 HCPs I should meet first?"',
     roadmapDesc: 'Top investment area. Continued development of scoring models and recommendation quality.',
@@ -545,6 +540,7 @@ const categories = [
     name: 'Route & Visit Planning',
     today: 0.58, nearterm: 0.72, longterm: 0.85,
     tier: 'investing',
+
     todayDesc: 'Interactive Google Maps with clickable pins, route planning, nearby SOC search, and mobile geolocation awareness. Good for opportunistic visit planning.',
     todayExample: '"Plan my visits in Dallas — who should I see nearby and what\'s the best route?"',
     roadmapDesc: 'Enhanced visit planner workflows with multi-stop optimization.',
@@ -556,6 +552,7 @@ const categories = [
     name: 'Email & Outreach',
     today: 0.80, nearterm: 0.88, longterm: 0.93,
     tier: 'strong',
+
     todayDesc: 'Data-informed email drafts and follow-ups informed by engagement history and notes. Ready-to-send copy with concise subjects and bodies — no placeholder text.',
     todayExample: '"Draft a follow-up email to Dr. Lopez referencing our last conversation and her recent knee replacement volume growth."',
     roadmapDesc: 'Direct send capability from within the chat experience.',
@@ -567,6 +564,7 @@ const categories = [
     name: 'Pipeline Management',
     today: 0.55, nearterm: 0.72, longterm: 0.85,
     tier: 'investing',
+
     todayDesc: 'View opportunities by HCP/SOC with stage, products, and values. Pipeline stage definitions, quota data, and sales forecast data all accessible in conversation. Can surface inactive opportunities and on-contract accounts with no active pipeline.',
     todayExample: '"Show me opportunities with no activity in the last 30 days, and any on-contract accounts with zero active opportunities."',
     roadmapDesc: 'Create opportunities with a review-and-confirm step. Pipeline update and management capabilities.',
@@ -578,6 +576,7 @@ const categories = [
     name: 'CRM Updates & Data Entry',
     today: 0.35, nearterm: 0.52, longterm: 0.75,
     tier: 'gap',
+
     todayDesc: 'Create, update, and delete activity notes. Create meetings and events. All via human-in-the-loop confirmation before saving.',
     todayExample: '"Log a note that I met with Dr. Nguyen today and she\'s interested in a trial. Then create a follow-up meeting for next Thursday."',
     roadmapDesc: 'Opportunity creation with a review-and-confirm step. Salesforce pipeline create/update planned.',
@@ -589,6 +588,7 @@ const categories = [
     name: 'Document & Knowledge Search',
     today: 0.48, nearterm: 0.62, longterm: 0.78,
     tier: 'investing',
+
     todayDesc: 'Three search capabilities: customer document RAG for org-uploaded playbooks and product sheets, Help Center article search, and real-time web research for public information on any entity.',
     todayExample: '"Search our uploaded docs for the clinical study on our spinal fusion system."',
     roadmapDesc: 'Smarter web search with expanded topics, improved model, and market intelligence sources like CON filings and new ASC build tracking.',
@@ -600,6 +600,7 @@ const categories = [
     name: 'Market Access Research',
     today: 0.25, nearterm: 0.38, longterm: 0.58,
     tier: 'gap',
+
     todayDesc: 'Basic payer channel data and payer parent breakdowns with quarterly trends at HCP and SOC levels.',
     todayExample: '"What\'s the payer channel breakdown for total knee replacements at Riverside Medical?"',
     roadmapDesc: 'Improved payer insights and broader market access data integration.',
@@ -611,6 +612,7 @@ const categories = [
     name: 'Similar Provider Discovery',
     today: 0.58, nearterm: 0.72, longterm: 0.85,
     tier: 'investing',
+
     todayDesc: 'The underlying data is strong — specialty, fellowship, education, procedure volumes, and practice patterns are all available. Reps can compare providers on these dimensions today.',
     todayExample: '"Show me orthopedic surgeons with a similar fellowship and procedure volume to Dr. Martinez."',
     roadmapDesc: 'Dedicated similarity matching that automatically compares across all dimensions at once.',
@@ -620,125 +622,35 @@ const categories = [
   }
 ];
 
-// Chart setup
-const ctx = document.getElementById('radarChart').getContext('2d');
+// Kanban rendering
+function renderKanban() {
+  const strong = categories.filter(c => c.tier === 'strong');
+  const investing = categories.filter(c => c.tier === 'investing');
+  const gap = categories.filter(c => c.tier === 'gap');
 
-const chartData = {
-  labels: categories.map(c => c.name),
-  datasets: [
-    {
-      label: 'Near-term (3–6 mo)',
-      data: categories.map(c => c.nearterm),
-      backgroundColor: 'rgba(59, 130, 246, 0.08)',
-      borderColor: 'rgba(59, 130, 246, 0.65)',
-      borderWidth: 2,
-      pointBackgroundColor: 'rgba(59, 130, 246, 0.8)',
-      pointBorderColor: '#fff',
-      pointBorderWidth: 1,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-    },
-    {
-      label: 'Today',
-      data: categories.map(c => c.today),
-      backgroundColor: 'rgba(16, 185, 129, 0.13)',
-      borderColor: 'rgba(16, 185, 129, 0.8)',
-      borderWidth: 2.5,
-      pointBackgroundColor: 'rgba(16, 185, 129, 0.9)',
-      pointBorderColor: '#fff',
-      pointBorderWidth: 1,
-      pointRadius: 5,
-      pointHoverRadius: 7,
-    }
-  ]
-};
-
-const chart = new Chart(ctx, {
-  type: 'radar',
-  data: chartData,
-  options: {
-    responsive: true,
-    maintainAspectRatio: true,
-    layout: {
-      padding: { left: 80, right: 80, top: 10, bottom: 10 }
-    },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: 'rgba(17, 24, 39, 0.9)',
-        titleFont: { family: 'Inter', size: 13, weight: '600' },
-        bodyFont: { family: 'Inter', size: 12 },
-        padding: 12,
-        cornerRadius: 8,
-        callbacks: {
-          label: function(context) {
-            return context.dataset.label + ': ' + Math.round(context.raw * 100) + '%';
-          }
-        }
-      }
-    },
-    scales: {
-      r: {
-        beginAtZero: true,
-        min: 0,
-        max: 1,
-        ticks: {
-          stepSize: 0.2,
-          font: { family: 'Inter', size: 10 },
-          color: '#9CA3AF',
-          backdropColor: 'transparent',
-          callback: function(value) { return Math.round(value * 100) + '%'; }
-        },
-        pointLabels: {
-          font: { family: 'Inter', size: 11, weight: '500' },
-          color: '#374151',
-          padding: 20,
-        },
-        grid: {
-          color: 'rgba(209, 213, 219, 0.5)',
-        },
-        angleLines: {
-          color: 'rgba(209, 213, 219, 0.4)',
-        }
-      }
-    },
-    elements: {
-      line: { tension: 0.15 }
-    }
-  }
-});
-
-// Map layer names to dataset indices and legend classes
-const layerMap = {
-  today:    { datasetIndex: 1, legendClass: 'legend-today',    activeClass: 'active-today' },
-  nearterm: { datasetIndex: 0, legendClass: 'legend-nearterm', activeClass: 'active-nearterm' },
-};
-
-function toggleLayer(btn) {
-  const layer = btn.dataset.layer;
-  const info = layerMap[layer];
-
-  // Toggle the button's active state
-  const isActive = btn.classList.contains(info.activeClass);
-  if (isActive) {
-    btn.classList.remove(info.activeClass);
-  } else {
-    btn.classList.add(info.activeClass);
+  function columnHTML(tier, title, items) {
+    const cards = items.map(c => {
+      const badge = c.tierLabel ? `<span class="tier-badge">${c.tierLabel}</span>` : '';
+      return `<div class="kanban-card ${tier}">${c.name}${badge}</div>`;
+    }).join('');
+    return `
+      <div class="kanban-column">
+        <div class="kanban-column-header ${tier}">
+          <span class="kanban-column-title">${title}</span>
+          <span class="kanban-column-count">${items.length}</span>
+        </div>
+        <div class="kanban-cards">${cards}</div>
+      </div>
+    `;
   }
 
-  // Sync chart visibility
-  const nowActive = btn.classList.contains(info.activeClass);
-  chart.data.datasets[info.datasetIndex].hidden = !nowActive;
-
-  // Sync legend dimming
-  const legendItem = document.querySelector('.' + info.legendClass);
-  if (nowActive) {
-    legendItem.classList.remove('dimmed');
-  } else {
-    legendItem.classList.add('dimmed');
-  }
-  chart.update();
+  document.getElementById('kanbanBoard').innerHTML =
+    columnHTML('strong', 'Strong', strong) +
+    columnHTML('investing', 'Actively Investing', investing) +
+    columnHTML('gap', 'Known Gaps', gap);
 }
+
+renderKanban();
 
 // Render detail cards
 function renderCards() {
